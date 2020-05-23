@@ -19,6 +19,12 @@ public class Fire : MonoBehaviour
     public AudioSource noAmmo;
     public AudioSource reload;
 
+    public GameObject gun;
+    public GameObject cursor;
+    public GameObject lazer;
+
+    LayerMask cursorDetection;
+
     Color panelColor;
 
     void Start()
@@ -30,6 +36,19 @@ public class Fire : MonoBehaviour
     {
         textPistol.text = ammoPistol + " | " + ammoPBag;
 
+        RaycastHit cursorLoc;
+
+        if (Physics.Raycast(spawnPoint.position, spawnPoint.TransformDirection(Vector3.forward) * 10, out cursorLoc))
+        {
+            if (cursorLoc.collider != null)
+            {
+                cursor.transform.position = cursorLoc.point;
+                lazer.GetComponent<LineRenderer>().SetPosition(1, cursor.transform.localPosition);
+            }
+        }
+
+        Debug.DrawRay(spawnPoint.position, spawnPoint.TransformDirection(Vector3.forward) * 10, Color.yellow);
+
         if (Input.GetButtonDown("Fire1"))
         {
             switch (GameObject.Find("Character").GetComponent<Hand>().weapon)
@@ -40,21 +59,13 @@ public class Fire : MonoBehaviour
                         Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, 0, 0), gameObject.transform);
                         soundPistol.Play();
                         ammoPistol--;
+                        gun.GetComponent<handGun>().fire = true;
                     }
                     else
                     {
                         noAmmo.Play();
                     }
                     break;
-                /* case 2:
-                    Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, Random.Range(-20f, 20f), 0), gameObject.transform);
-                    Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, Random.Range(-20f, 20f), 0), gameObject.transform);
-                    Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, Random.Range(-20f, 20f), 0), gameObject.transform);
-                    Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, Random.Range(-20f, 20f), 0), gameObject.transform);
-                    Instantiate(bullet, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0, Random.Range(-20f, 20f), 0), gameObject.transform);
-
-                    soundShotgun.Play();
-                    break;*/
             }
         }
 

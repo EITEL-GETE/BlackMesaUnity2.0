@@ -73,13 +73,13 @@ public class PlayerMouvement : MonoBehaviour
                 switch (groundType.tag)
                 {
                     case "Concrete":
-                        concrete.transform.GetChild(Random.Range(0, 4)).GetComponent<AudioSource>().Play();
+                        concrete.transform.GetChild(Random.Range(0, concrete.transform.childCount)).GetComponent<AudioSource>().Play();
                         break;
                     case "Duct":
-                        duct.transform.GetChild(Random.Range(0, 4)).GetComponent<AudioSource>().Play();
+                        duct.transform.GetChild(Random.Range(0, duct.transform.childCount)).GetComponent<AudioSource>().Play();
                         break;
                     case "Tiles":
-                        tiles.transform.GetChild(Random.Range(0, 4)).GetComponent<AudioSource>().Play();
+                        tiles.transform.GetChild(Random.Range(0, tiles.transform.childCount)).GetComponent<AudioSource>().Play();
                         break;
                 }
             }
